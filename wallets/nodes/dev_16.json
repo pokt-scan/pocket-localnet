@@ -1,0 +1,22 @@
+{
+  "private_key": "377db4a7b950a74383a59db4e1151dddc24dd161ff7426bdf02a406bbbd432b9e2c2e21bed1ab291e02d1d78d906616e6d259ec3cac0497562507de810081560",
+  "public_key": "e2c2e21bed1ab291e02d1d78d906616e6d259ec3cac0497562507de810081560",
+  "address": "56f4af690d1ac39b8f4c4fb9892ede2757e94624",
+  "nodeKey": {
+    "priv_key": {
+      "type": "tendermint/PrivKeyEd25519",
+      "value": "N320p7lQp0ODpZ204RUd3cJN0WH/dCa98CpAa7vUMrniwuIb7RqykeAtHXjZBmFubSWew8rASXViUH3oEAgVYA=="
+    }
+  },
+  "privValKey": {
+    "address": "56F4AF690D1AC39B8F4C4FB9892EDE2757E94624",
+    "pub_key": {
+      "type": "tendermint/PubKeyEd25519",
+      "value": "4sLiG+0aspHgLR142QZhbm0lnsPKwEl1YlB96BAIFWA="
+    },
+    "priv_key": {
+      "type": "tendermint/PrivKeyEd25519",
+      "value": "N320p7lQp0ODpZ204RUd3cJN0WH/dCa98CpAa7vUMrniwuIb7RqykeAtHXjZBmFubSWew8rASXViUH3oEAgVYA=="
+    }
+  }
+}

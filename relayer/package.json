@@ -1,0 +1,19 @@
+{
+  "name": "relayer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start": "node -r dotenv/config index.js dotenv_config_path=../.env dotenv_config_debug=true"
+  },
+  "dependencies": {
+    "@pokt-foundation/pocketjs-provider": "1.2.0",
+    "@pokt-foundation/pocketjs-relayer": "1.2.0",
+    "@pokt-foundation/pocketjs-signer": "1.2.0",
+    "@pokt-network/aat-js": "0.1.3-rc",
+    "dotenv": "^16.0.3",
+    "lodash": "^4.17.21",
+    "p-limit": "4.0.0"
+  }
+}
