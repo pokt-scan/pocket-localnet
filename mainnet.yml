@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+
+  node:
+    build:
+      context: .
+    image: poktscan/pocket-core:dev
+    container_name: node_mainnet
+    command: [ "pocket", "start", "--datadir=/home/app/.pocket/"]
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-X", "POST", "http://localhost:8081/v1/query/height" ]
+      interval: 10s
+      timeout: 1s
+      retries: 10
+    environment:
+      # FAKE KEY
+      POCKET_CORE_KEY: 6ee006cb35632f7a528d530428863efa8abda2634a68c99e62845a809573131433e1eac17dfce97abaa1387db52cea318edce277bfe5c790448f8ba22f602800
+      POCKET_CORE_PASSPHRASE: dev
+      POCKET_ADDRESS: 7c08e2e1265246a66d7d022b163970114dda124e
+    ports:
+      - "8081:8081" # pokt rpc
+      - "8083:8083" # prometheus
+      - "26656:26656/tcp" # tendermint peer
+      - "26656:26656/udp" # tendermint peer
+      - "26657:26657" # tendermint rpc
+    expose:
+      - "26656"
+    volumes:
+      # Data
+      - node:/home/app/.pocket
+
+      # Exclusive main files
+      - ./mainnet/config.json:/home/app/.pocket/config/config.json
+
+      # Common nodes files
+      - ./mainnet/genesis.json:/home/app/.pocket/config/genesis.json
+      - ./config/chains.json:/home/app/.pocket/config/chains.json
+      - ./config/auth.json:/home/app/.pocket/config/auth.json
+    logging:
+      options:
+        mode: non-blocking
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  pocket_mainnet:
+
+volumes:
+  node:

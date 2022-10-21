@@ -17,7 +17,7 @@ RUN apk update && \
     rm /var/cache/apk/* || true
 
 # Environment and system dependencies setup
-ENV POCKET_PATH=/go/src/github.com/pokt-network/pocket-core/
+ENV POCKET_PATH=/go/src/github.com/pokt-network/pocket-core
 ENV GO111MODULE="on"
 ENV GOOS=linux
 ENV GOARCH=amd64

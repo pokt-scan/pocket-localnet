@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/.pocket/.idea/.pocket.iml" filepath="$USER_HOME$/.pocket/.idea/.pocket.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/pocket-localnet.iml" filepath="$PROJECT_DIR$/.idea/pocket-localnet.iml" />
     </modules>
   </component>
