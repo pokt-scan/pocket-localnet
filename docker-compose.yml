@@ -4,7 +4,8 @@ services:
 
   node1:
     build:
-      context: .
+      context: ../
+      dockerfile: pocket-localnet/Dockerfile
     image: poktscan/pocket-core:dev
     container_name: node1_localnet
     command: [ "pocket", "start", "--datadir=/home/app/.pocket/"]
@@ -55,7 +56,8 @@ services:
 
   node2:
     build:
-      context: .
+      context: ../
+      dockerfile: pocket-localnet/Dockerfile
     container_name: node2_localnet
     command: [ "pocket", "start", "--datadir=/home/app/.pocket/" ]
     restart: unless-stopped

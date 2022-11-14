@@ -28,7 +28,7 @@ WORKDIR $POCKET_PATH
 
 # Copy source code
 COPY pocket-core $POCKET_PATH
-COPY entrypoint.sh /bin/entrypoint.sh
+COPY pocket-localnet/entrypoint.sh /bin/entrypoint.sh
 
 # Install project dependencies
 RUN  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0

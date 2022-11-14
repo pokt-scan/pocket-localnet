@@ -39,9 +39,11 @@ This is a overnight tooling to help the community to test this. If you face any 
 
 ### How to Use:
 
-Clone pocket core inside pocket-localnet as pocket-core
+Clone pocket core at same level of pocket-localnet as pocket-core
+`git clone https://github.com/pokt-scan/pocket-localnet.git`
 `git clone https://github.com/pokt-network/pocket-core.git`
-`git checkout mesh-node`
+`cd pocket-code`
+`git checkout ew-halt-integration` (Temp branch that contain lean fix for last network halt + mesh)
 
 1. Create at your $HOME a pocket folder like `mkdir -p ~/.pocket`
 2. Copy `config` folder files to `$HOME/.pocket` folder 
