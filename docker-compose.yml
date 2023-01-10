@@ -11,7 +11,7 @@ services:
     command: [ "pocket", "start", "--datadir=/home/app/.pocket/"]
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "-X", "POST", "http://localhost:8081/v1/query/height" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/v1/health" ]
       interval: 10s
       timeout: 1s
       retries: 10
@@ -62,7 +62,7 @@ services:
     command: [ "pocket", "start", "--datadir=/home/app/.pocket/" ]
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "-X", "POST", "http://localhost:8091/v1/query/height" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:8091/v1/health" ]
       interval: 10s
       timeout: 1s
       retries: 10
@@ -71,7 +71,7 @@ services:
       POCKET_CORE_PASSPHRASE: dev
       POCKET_ADDRESS: 9ab105b900c4633657f60974ad0e243c8f50ae1e
     ports:
-      - "091:8091" # pokt rpc
+      - "8091:8091" # pokt rpc
       - "8093:8093" # prometheus
       - "26666:26666/tcp" # tendermint peer
       - "26666:26666/udp" # tendermint peer
@@ -105,9 +105,46 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  mesh:
+    user: root
+    build:
+      context: ../
+      dockerfile: pocket-localnet/Dockerfile
+    container_name: nmesh_localnet
+    command: [ "pocket", "start-mesh", "--datadir=/home/app/.pocket/" ]
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "-X", "POST", "http://localhost:8091/v1/mesh/health" ]
+      interval: 10s
+      timeout: 1s
+      retries: 10
+    ports:
+      - "8071:8071" # pokt rpc
+      - "9083:9083" # prometheus
+    volumes:
+      # Data
+      - /home/overlordyorch/.pocket/mesh:/home/app/.pocket
+      - mesh:/home/app/.pocket/data
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 3G
+    hostname: mesh.dev
+    networks:
+      pocket_localnet:
+        aliases:
+          - mesh.dev
+    logging:
+      options:
+        mode: non-blocking
+        max-size: "10m"
+        max-file: "3"
+
 networks:
   pocket_localnet:
 
 volumes:
   node1:
   node2:
+  mesh:
