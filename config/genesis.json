@@ -51,9 +51,9 @@
             "0021"
           ],
           "jailed": false,
-          "max_relays": "100000000",
+          "max_relays": "10000",
           "public_key": "1802f4116b9d3798e2766a2452fbeb4d280fa99e77e61193df146ca4d88b38af",
-          "staked_tokens": "250000000000",
+          "staked_tokens": "25000000000",
           "status": 2,
           "unstaking_time": "0001-01-01T00:00:00Z"
         }

@@ -167,7 +167,7 @@ const run = async () => {
         console.log("info", '=======================================================================')
 
         if (round < maxRounds) {
-            await sleep(10000);
+            await sleep(1000);
         }
         round++
     }
