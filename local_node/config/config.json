@@ -155,6 +155,11 @@
         "iavl_cache_size": 500000,
         "chains_hot_reload": true,
         "generate_token_on_start": true,
-        "lean_pocket": true
+        "lean_pocket": true,
+        "evidence_worker": {
+            "strategy": "eager",
+            "max_capacity": 1000,
+            "idle_timeout": 15000
+        }
     }
 }

@@ -153,6 +153,11 @@
         "show_relay_errors": false,
         "iavl_cache_size": 500000,
         "chains_hot_reload": true,
-        "generate_token_on_start": false
+        "generate_token_on_start": false,
+        "evidence_worker": {
+            "strategy": "eager",
+            "max_capacity": 1000,
+            "idle_timeout": 15000
+        }
     }
 }
