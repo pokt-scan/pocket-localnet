@@ -24,8 +24,7 @@
         "proof_waiting_period": "3",
         "supported_blockchains": [
           "0001",
-          "0021",
-          "0040"
+          "0021"
         ],
         "claim_expiration": "100",
         "replay_attack_burn_multiplier": "3",

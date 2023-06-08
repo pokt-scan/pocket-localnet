@@ -8,13 +8,17 @@ import _ from "lodash";
 const APP_PRIVATE_KEY = "6d7d9e78fd62b524cfa76a298b6f9653445449bc22960224901a5bb993ba52cb1802f4116b9d3798e2766a2452fbeb4d280fa99e77e61193df146ca4d88b38af"
 const APP_CHAIN = "0021"
 const DISPATCHERS = [
-    "http://localhost:9081",
-    // "http://localhost:8081",
+    "http://localhost:9081" // local mesh node
 ]
 const RELAY_DATA = [
     "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBalance\",\"params\":[\"0xF02c1c8e6114b1Dbe8937a39260b5b0a374432bB\", \"latest\"],\"id\":1}"
 ]
 const NODES = [
+    // node 1
+    "7c08e2e1265246a66d7d022b163970114dda124e",
+    // node 2
+    "9ab105b900c4633657f60974ad0e243c8f50ae1e",
+    // lean node
     "5e6949faf0a176fd0f3a0e2ef948d7a70ee2867b",
     "4202057f345d63b0af02f76dcb42aa46bf9b6d43",
     "a31eba7042bd2c87c5dc0462d92dd1c961c81249",

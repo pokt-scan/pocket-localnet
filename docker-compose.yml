@@ -1,20 +1,34 @@
-version: "3"
+version: "3.4"
+
+x-base-pocket-core: &base-pocket-core
+  build:
+    context: ../
+    dockerfile: pocket-localnet/Dockerfile
+  image: poktscan/pocket-core:dev
+  command: [ "pocket", "start", "--datadir=/home/app/.pocket/"]
+  restart: unless-stopped
+  healthcheck:
+    interval: 10s
+    timeout: 1s
+    retries: 10
+  deploy:
+    resources:
+      limits:
+        cpus: "2"
+        memory: 3G
+  logging:
+    options:
+      mode: non-blocking
+      max-size: "10m"
+      max-file: "3"
 
 services:
 
   node1:
-    build:
-      context: ../
-      dockerfile: pocket-localnet/Dockerfile
-    image: poktscan/pocket-core:dev
+    <<: *base-pocket-core
     container_name: node1_localnet
-    command: [ "pocket", "start", "--datadir=/home/app/.pocket/"]
-    restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8081/v1/health" ]
-      interval: 10s
-      timeout: 1s
-      retries: 10
     environment:
       POCKET_CORE_KEY: 6ee006cb35632f7a528d530428863efa8abda2634a68c99e62845a809573131433e1eac17dfce97abaa1387db52cea318edce277bfe5c790448f8ba22f602800
       POCKET_CORE_PASSPHRASE: dev
@@ -38,34 +52,16 @@ services:
       - ./config/genesis.json:/home/app/.pocket/config/genesis.json
       - ./config/chains.json:/home/app/.pocket/config/chains.json
       - ./config/auth.json:/home/app/.pocket/config/auth.json
-    deploy:
-      resources:
-        limits:
-          cpus: "2"
-          memory: 3G
     hostname: node1.dev
     networks:
       pocket_localnet:
         aliases:
           - node1.dev
-    logging:
-      options:
-        mode: non-blocking
-        max-size: "10m"
-        max-file: "3"
-
   node2:
-    build:
-      context: ../
-      dockerfile: pocket-localnet/Dockerfile
+    <<: *base-pocket-core
     container_name: node2_localnet
-    command: [ "pocket", "start", "--datadir=/home/app/.pocket/" ]
-    restart: unless-stopped
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8091/v1/health" ]
-      interval: 10s
-      timeout: 1s
-      retries: 10
     environment:
       POCKET_CORE_KEY: f5890eda21ec81039309b57b5b49a40b4a22663eaefbe213b5e56d9f5e5acc387bdc0d52b37654e88273d3db2e5a8e5366d58ddc21b9b3dbb3263528812d9bb7
       POCKET_CORE_PASSPHRASE: dev
@@ -89,62 +85,91 @@ services:
       - ./config/genesis.json:/home/app/.pocket/config/genesis.json
       - ./config/chains.json:/home/app/.pocket/config/chains.json
       - ./config/auth.json:/home/app/.pocket/config/auth.json
-    deploy:
-      resources:
-        limits:
-          cpus: "2"
-          memory: 3G
     hostname: node2.dev
     networks:
       pocket_localnet:
         aliases:
           - node2.dev
-    logging:
-      options:
-        mode: non-blocking
-        max-size: "10m"
-        max-file: "3"
-
-  mesh:
-    user: root
-    build:
-      context: ../
-      dockerfile: pocket-localnet/Dockerfile
-    container_name: nmesh_localnet
-    command: [ "pocket", "start-mesh", "--datadir=/home/app/.pocket/" ]
-    restart: unless-stopped
+    
+    
+  lean:
+    <<: *base-pocket-core
+    container_name: lean_localnet
     healthcheck:
-      test: [ "CMD", "curl", "-f", "-X", "POST", "http://localhost:8091/v1/mesh/health" ]
-      interval: 10s
-      timeout: 1s
-      retries: 10
+      test: [ "CMD", "curl", "-f", "http://localhost:8071/v1/health" ]
+    environment:
+      POCKET_ADDRESS: 5e6949faf0a176fd0f3a0e2ef948d7a70ee2867b
+      POCKET_CORE_KEY: eece5822c05899080899e2678c00926cabf031444e61891fb5494c8fe6de4f42b2ef60d9f83d4250adca27aaa26a234502e009167bbf29328871c0f7dacc19a6
+      POCKET_CORE_PASSPHRASE: dev
     ports:
       - "8071:8071" # pokt rpc
-      - "9083:9083" # prometheus
+      - "8073:8073" # prometheus
+      - "26646:26646/tcp" # tendermint peer
+      - "26646:26646/udp" # tendermint peer
+      - "26647:26647" # tendermint rpc
+    expose:
+      - "26646"
     volumes:
       # Data
-      - /home/overlordyorch/.pocket/mesh:/home/app/.pocket
-      - mesh:/home/app/.pocket/data
-    deploy:
-      resources:
-        limits:
-          cpus: "2"
-          memory: 3G
+      - lean:/home/app/.pocket
+      
+      # Exclusive main files
+      - ./lean/config.json:/home/app/.pocket/config/config.json
+      - ./lean/lean_nodes_keys.json:/home/app/.pocket/lean_nodes_keys.json
+      
+      # Common nodes files
+      - ./config/genesis.json:/home/app/.pocket/config/genesis.json
+      - ./config/chains.json:/home/app/.pocket/config/chains.json
+      - ./config/auth.json:/home/app/.pocket/config/auth.json
+    hostname: lean.dev
+    networks:
+      pocket_localnet:
+        aliases:
+          - lean.dev
+  mesh:
+    <<: *base-pocket-core
+    container_name: nmesh_localnet
+    command: [ "pocket", "start-mesh", "--datadir=/home/app/.pocket/" ]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:9081/v1/health" ]
+    ports:
+      - "9081:9081" # pokt rpc
+      - "9084:9084" # prometheus
+    volumes:
+      # Data
+      - mesh:/home/app/.pocket
+      # Exclusive main files
+      - ./mesh/config.json:/home/app/.pocket/config/config.json
+      - ./mesh/keys.json:/home/app/.pocket/key/keys.json
+      # Common nodes files
+      - ./config/auth.json:/home/app/.pocket/key/auth.json
+      - ./config/chains.json:/home/app/.pocket/chains/chains.json
     hostname: mesh.dev
     networks:
       pocket_localnet:
         aliases:
           - mesh.dev
-    logging:
-      options:
-        mode: non-blocking
-        max-size: "10m"
-        max-file: "3"
+    depends_on:
+      node1:
+        condition: service_healthy
+      node2:
+        condition: service_healthy
+      lean:
+        condition: service_healthy
 
 networks:
   pocket_localnet:
 
 volumes:
   node1:
+    labels:
+      pocket: localnet
   node2:
+    labels:
+      pocket: localnet
+  lean:
+    labels:
+      pocket: localnet
   mesh:
+    labels:
+      pocket: localnet

@@ -1,8 +1,8 @@
 {
     "tendermint_config": {
-        "RootDir": "/home/overlordyorch/.pocket/dev",
+        "RootDir": "/home/app/.pocket",
         "ProxyApp": "tcp://127.0.0.1:26648",
-        "Moniker": "localnet-node-dev",
+        "Moniker": "localnet-node-lean",
         "FastSyncMode": true,
         "DBBackend": "goleveldb",
         "LevelDBOptions": {
@@ -25,7 +25,7 @@
         "ProfListenAddress": "",
         "FilterPeers": false,
         "RPC": {
-            "RootDir": "/home/overlordyorch/.pocket/dev",
+            "RootDir": "/home/app/.pocket",
             "ListenAddress": "tcp://0.0.0.0:26647",
             "CORSAllowedOrigins": [],
             "CORSAllowedMethods": [
@@ -53,9 +53,9 @@
             "TLSKeyFile": ""
         },
         "P2P": {
-            "RootDir": "/home/overlordyorch/.pocket/dev",
+            "RootDir": "/home/app/.pocket",
             "ListenAddress": "tcp://0.0.0.0:26646",
-            "ExternalAddress": "tcp://0.0.0.0:26646",
+            "ExternalAddress": "tcp://node2.dev:26646",
             "Seeds": "7c08e2e1265246a66d7d022b163970114dda124e@node1.dev:26656,9ab105b900c4633657f60974ad0e243c8f50ae1e@node2.dev:26666",
             "PersistentPeers": "7c08e2e1265246a66d7d022b163970114dda124e@node1.dev:26656,9ab105b900c4633657f60974ad0e243c8f50ae1e@node2.dev:26666",
             "UPNP": true,
@@ -63,7 +63,7 @@
             "AddrBookStrict": false,
             "MaxNumInboundPeers": 2,
             "MaxNumOutboundPeers": 2,
-            "UnconditionalPeerIDs": "7c08e2e1265246a66d7d022b163970114dda124e,9ab105b900c4633657f60974ad0e243c8f50ae1e",
+            "UnconditionalPeerIDs": "7c08e2e1265246a66d7d022b163970114dda124e",
             "PersistentPeersMaxDialPeriod": 0,
             "FlushThrottleTimeout": 100000000,
             "MaxPacketMsgPayloadSize": 1024,
@@ -86,7 +86,7 @@
             }
         },
         "Mempool": {
-            "RootDir": "/home/overlordyorch/.pocket/dev",
+            "RootDir": "/home/app/.pocket",
             "Recheck": true,
             "Broadcast": true,
             "WalPath": "",
@@ -99,18 +99,18 @@
             "Version": "v1"
         },
         "Consensus": {
-            "RootDir": "/home/overlordyorch/.pocket/dev",
+            "RootDir": "/home/app/.pocket",
             "WalPath": "data/cs.wal/wal",
-            "TimeoutPropose": 30000000000,
+            "TimeoutPropose": 60000000000,
             "TimeoutProposeDelta": 10000000000,
-            "TimeoutPrevote": 30000000000,
+            "TimeoutPrevote": 60000000000,
             "TimeoutPrevoteDelta": 10000000000,
-            "TimeoutPrecommit": 30000000000,
+            "TimeoutPrecommit": 60000000000,
             "TimeoutPrecommitDelta": 10000000000,
-            "TimeoutCommit": 60000000000,
+            "TimeoutCommit": 120000000000,
             "SkipTimeoutCommit": false,
             "CreateEmptyBlocks": true,
-            "CreateEmptyBlocksInterval": 60000000000,
+            "CreateEmptyBlocksInterval": 120000000000,
             "PeerGossipSleepDuration": 100000000,
             "PeerQueryMaj23SleepDuration": 2000000000
         },
@@ -127,19 +127,19 @@
         }
     },
     "pocket_config": {
-        "data_dir": "/home/overlordyorch/.pocket/dev",
+        "data_dir": "/home/app/.pocket",
         "genesis_file": "genesis.json",
         "chains_name": "chains.json",
         "session_db_name": "session",
         "evidence_db_name": "pocket_evidence",
-        "tendermint_uri": "tcp://localhost:26647",
+        "tendermint_uri": "tcp://localhost:26667",
         "keybase_name": "pocket-keybase",
         "rpc_port": "8071",
         "client_block_sync_allowance": 10,
         "max_evidence_cache_entries": 500,
         "max_session_cache_entries": 500,
         "json_sort_relay_responses": true,
-        "remote_cli_url": "http://localhost:8081",
+        "remote_cli_url": "http://localhost:8091",
         "user_agent": "poktscan-public-archive",
         "validator_cache_size": 40000,
         "application_cache_size": 10000,
@@ -148,14 +148,14 @@
         "prometheus_max_open_files": 3,
         "max_claim_age_for_proof_retry": 32,
         "proof_prevalidation": false,
-        "disable_tx_events": true,
         "ctx_cache_size": 20,
         "abci_logging": false,
         "show_relay_errors": false,
         "iavl_cache_size": 500000,
         "chains_hot_reload": true,
-        "generate_token_on_start": true,
+        "generate_token_on_start": false,
         "lean_pocket": true,
+        "mesh_node": true,
         "evidence_worker": {
             "strategy": "eager",
             "max_capacity": 1000,
