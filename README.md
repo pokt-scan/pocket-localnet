@@ -63,7 +63,7 @@ This is an overnight tooling to help the community to test this. If you face any
 
 1. Run: `cd pocket-localnet` - move to pocket-localnet repository
 2. Run: `docker-compose down` - destroy all the containers.
-3. Run: `docker volume rm pocket-localnet_node1 & docker volume rm pocket-localnet_node2 & docker volume rm pocket-localnet_lean & docker volume rm pocket-localnet_mesh`
+3. Run: `docker volume rm pocket-localnet_node1 && docker volume rm pocket-localnet_node2 && docker volume rm pocket-localnet_lean && docker volume rm pocket-localnet_mesh`
    * NOTE: docker-compose contains volume label "pocket=localnet" but `docker volume prune --filter "label=pocket"` or `docker volume prune --filter "pocket=localnet"` is not working as expected. 
 4. Run again from "Start Pocket LocalNet + Geo-Mesh"
 
