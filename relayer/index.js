@@ -65,6 +65,10 @@ const run = () => {
                         goodRelaysTime += p.value.relayTime
                         if (relaysByNode[p.value.node]) relaysByNode[p.value.node]++
                         else relaysByNode[p.value.node] = 1
+                        // if (p.value.responseSample && p.value.responseSample.length > 0) {
+                        //     const items = p.value.responseSample
+                        //     console.log(`sample response: ${items[Math.floor(Math.random()*items.length)]}`)
+                        // }
                     }
                 })
 

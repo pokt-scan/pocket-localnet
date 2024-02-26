@@ -1,67 +1,20 @@
-FROM golang:1.21-alpine as builder
+# Based on a previous implementation to make sure we don't break existing deployments.
+# https://github.com/pokt-network/pocket-core-deployments/blob/staging/docker/Dockerfile
 
-# Install dependencies
-RUN apk update && \
-    apk -v --update --no-cache add \
-		curl \
-		git \
-		groff \
-		less \
-		mailcap \
-		gcc \
-		libc-dev \
-		bash \
-    	curl \
-    	leveldb-dev \
-        leveldb-dev && \
-    rm /var/cache/apk/* || true
+FROM golang:1.21-alpine as build
+RUN apk add --no-cache ca-certificates
+WORKDIR /build
+COPY pocket-core /build
+RUN go build -o pocket app/cmd/pocket_core/main.go
 
-# Environment and system dependencies setup
-ENV POCKET_PATH=/go/src/github.com/pokt-network/pocket-core
-ENV GO111MODULE="on"
-ENV GOOS=linux
-ENV GOARCH=amd64
-
-# Create node root directory
-RUN mkdir -p ${POCKET_PATH}
-WORKDIR $POCKET_PATH
-
-# Copy source code
-COPY pocket-core $POCKET_PATH
-COPY pocket-localnet/entrypoint.sh /bin/entrypoint.sh
-
-# Install project dependencies
-RUN  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.26.0
-
-RUN go mod vendor
-
-RUN go mod download
-
-# Install project dependencies and builds the binary
-RUN go build -tags cleveldb -o ${GOBIN}/bin/pocket ${POCKET_PATH}/app/cmd/pocket_core/main.go
-
-FROM alpine:3.13
-COPY --from=builder /bin/pocket /bin/pocket
-COPY --from=builder /bin/entrypoint.sh /home/app/entrypoint.sh
-
-RUN apk add --update --no-cache \
-    expect \
-    bash \
-    leveldb-dev \
-    tzdata \
-    curl && \
-	rm /var/cache/apk/* || true
-
-RUN cp /usr/share/zoneinfo/America/New_York  /etc/localtime
-
-# Create app user and add permissions
-RUN addgroup --gid 1001 -S app \
-	&& adduser --uid 1005 -S -G app app
-
-RUN chown app:app /bin/pocket && chown app:app /home/app/entrypoint.sh
-
+FROM alpine
+RUN apk add --update --no-cache expect bash leveldb-dev tzdata curl && cp /usr/share/zoneinfo/America/New_York /etc/localtime \
+    && addgroup --gid 1001 -S app \
+    && adduser --uid 1005 -S -G app app
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=build /build/pocket /bin/pocket
+COPY pocket-core/.github/workflows/entrypoint.sh /home/app/entrypoint.sh
+RUN chown -R app /bin/pocket
 USER app
-
-RUN mkdir -p /home/app/.pocket/config && chown -R app:app /home/app/.pocket
-
+RUN mkdir -p /home/app/.pocket/config && chown -R app /home/app/.pocket
 ENTRYPOINT ["/usr/bin/expect", "/home/app/entrypoint.sh"]

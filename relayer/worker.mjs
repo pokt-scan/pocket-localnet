@@ -16,8 +16,8 @@ const DISPATCHERS = [
     VALIDATOR_2_URL,
     LEAN_URL,
 ]
-const RELAY_DATA = [
-    "{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBalance\",\"params\":[\"0xF02c1c8e6114b1Dbe8937a39260b5b0a374432bB\", \"latest\"],\"id\":1}"
+const RELAY_DATA = process.env.RELAY_DATA !== "" ? JSON.parse(process.env.RELAY_DATA) : [
+    "[{\"jsonrpc\":\"2.0\",\"method\":\"eth_getBalance\",\"params\":[\"0xF02c1c8e6114b1Dbe8937a39260b5b0a374432bB\", \"latest\"],\"id\":1}]"
 ]
 const NODES = {
     "7c08e2e1265246a66d7d022b163970114dda124e": MESH_URL,
@@ -43,7 +43,6 @@ const NODES = {
     "b35edc63b62aa1b53d75f7f8bc5c6db2a84958fb": MESH_URL,
     "621993ee115ad88682ed401e213e7b389e296832": MESH_URL,
 }
-
 
 async function initialize() {
     // Instantiate a provider for querying information on the chain!
@@ -86,6 +85,7 @@ async function initialize() {
             relayTime: 0,
             node: undefined,
             session: session,
+            responseSample: []
         }
 
         let notInSession = true
@@ -105,6 +105,8 @@ async function initialize() {
                 blockchain: APP_CHAIN,
                 pocketAAT: pocketAAT,
                 session: session,
+                // method: "POST",
+                // path: "/path-here",
                 node,
                 options: {
                     timeout: 180000,
@@ -113,6 +115,10 @@ async function initialize() {
 
             if (relay.serviceNode) {
                 analytics.node = `${relay.serviceNode.address}@${relay.serviceNode.serviceUrl.toString()}`
+            }
+
+            if (relay.response !== "") {
+                analytics.responseSample.push(relay.response)
             }
         } catch (e) {
             console.log("errored relay", e.message)
