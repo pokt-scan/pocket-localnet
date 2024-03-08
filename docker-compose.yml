@@ -2,7 +2,7 @@ version: "3.4"
 
 x-base-pocket-core: &base-pocket-core
   build:
-    context: $POCKET_CORE_PATH
+    context: ${POCKET_CORE_PATH:-../pocket-core}
     dockerfile: .github/workflows/Dockerfile
   image: poktscan/pocket-core:dev
   command: [ "pocket", "start", "--datadir=/home/app/.pocket/", "--keybase=false", "--forceSetValidators"]
@@ -12,7 +12,7 @@ x-base-pocket-core: &base-pocket-core
   #  user: root
   restart: unless-stopped
   healthcheck:
-    interval: 10s
+    interval: 30s
     timeout: 1s
     retries: 10
   deploy:
@@ -25,6 +25,10 @@ x-base-pocket-core: &base-pocket-core
       mode: non-blocking
       max-size: "10m"
       max-file: "3"
+
+x-volume-labels: &volume-labels
+  labels:
+    pocket: localnet
 
 services:
   
@@ -152,19 +156,45 @@ services:
       lean3:
         condition: service_healthy
 
+  relayer:
+    build:
+      context: ${RELAYER_PATH:-./relayer}
+    image: poktscan/pocket-relayer:dev
+    command: [ "yarn", "start:docker" ]
+    restart: no
+    volumes:
+      # mount here a path with .json file to use on relayer and change them using ENV DATA_PATH
+      - relayer:/home/app/relayer/data
+      # if you change the mount path, ensure to pass the ENV variable DATA_PATH
+#      - ./relayer/data.json:/home/app/relayer/data/data.json
+      - ${RELAYER_DATA_PATH:-./relayer/data.json}:/home/app/relayer/data/data.json
+    hostname: relayer.dev
+    environment:
+      DATA_PATH: "./data/data.json"
+    networks:
+      pocket_localnet:
+        aliases:
+          - relayer.dev
+    depends_on:
+      mesh:
+        condition: service_healthy
+    logging:
+      options:
+        mode: non-blocking
+        max-size: "10m"
+        max-file: "3"
+
 networks:
   pocket_localnet:
 
 volumes:
   lean1:
-    labels:
-      pocket: localnet
+    <<: *volume-labels
   lean2:
-    labels:
-      pocket: localnet
+    <<: *volume-labels
   lean3:
-    labels:
-      pocket: localnet
+    <<: *volume-labels
   mesh:
-    labels:
-      pocket: localnet
+    <<: *volume-labels
+  relayer:
+    <<: *volume-labels
