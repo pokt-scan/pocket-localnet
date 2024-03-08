@@ -1,12 +1,20 @@
 import Piscina from "piscina";
 import * as Stream from "stream";
+import bunyan from "bunyan";
 
-// function sleep(ms) {
-//     console.log("info", `process sleep ${ms}ms`)
-//     return new Promise((resolve) => {
-//         setTimeout(resolve, ms);
-//     });
-// }
+const logger = bunyan.createLogger({
+    name: 'relayer',
+    level: 'debug',
+    streams: [{
+        level: 'info',
+        stream: process.stdout // log INFO and above to stdout
+    }, {
+        type: 'rotating-file',
+        path: './logs/relays.log',
+        period: '1d',   // daily rotation
+        count: 3        // keep 3 back copies
+    }]
+});
 
 const run = () => {
     return new Promise((resolve, reject) => {
@@ -14,9 +22,6 @@ const run = () => {
             filename: new URL('./worker.mjs', import.meta.url).href,
             maxQueue: 'auto'
         });
-
-        // let round = 1
-        // const maxRounds = Number(process.env.MAX_ROUNDS || 1)
 
         const tasks = [];
         const totalRelays = Number(process.env.MAX_RELAYS || 1000)
@@ -26,7 +31,7 @@ const run = () => {
 
         pool.on('drain', () => {
             if (stream.isPaused()) {
-                console.log('resuming...', pool.queueSize);
+                logger.info('resuming...', pool.queueSize);
                 stream.resume();
             }
         });
@@ -35,7 +40,7 @@ const run = () => {
             .on('data', (data) => {
                 tasks.push(pool.run(data));
                 if (pool.queueSize === pool.options.maxQueue) {
-                    console.log('pausing...', pool.queueSize);
+                    logger.info('pausing...', pool.queueSize);
                     stream.pause();
                 }
             })
@@ -50,36 +55,40 @@ const run = () => {
                 let badRelays = 0
                 const relaysByNode = {}
 
-                console.log("debug", "analyze results")
                 results.forEach(p => {
                     if (p.status === 'rejected' || !p.value.success) {
 
                         badRelays++
                         if (p.status === 'rejected') {
-                            console.error(`relay promise reject because: ${p.reason}`)
+                            logger.error(`relay promise reject because: ${p.reason}`)
                         } else if (p.value && p.value.success) {
-                            console.error(`relay promise fulfilled but was a bad relay because: ${p.value.errorMsg}`)
+                            logger.error(`relay promise fulfilled but was a bad relay because: ${p.value.errorMsg}`)
                         }
                     } else {
                         goodRelays++
                         goodRelaysTime += p.value.relayTime
                         if (relaysByNode[p.value.node]) relaysByNode[p.value.node]++
                         else relaysByNode[p.value.node] = 1
-                        // if (p.value.responseSample && p.value.responseSample.length > 0) {
-                        //     const items = p.value.responseSample
-                        //     console.log(`sample response: ${items[Math.floor(Math.random()*items.length)]}`)
-                        // }
+                        if (p.value.responseSample && p.value.responseSample.length > 0) {
+                            const items = p.value.responseSample
+                            logger.debug('response', {
+                                node: p.value.node,
+                                response: items,
+                            });
+                        }
                     }
                 })
 
-                console.log("info", '=======================================================================')
-                console.log("info", `Good Relays: ${goodRelays}`)
-                console.log("info", `Relays MS Avg: ${goodRelays > 0 ? goodRelaysTime / goodRelays : 0}`)
-                console.log("info", `Bad Relays: ${badRelays}`)
-                console.log("info", JSON.stringify(relaysByNode, null, 2))
-                console.log("info", '=======================================================================')
+                logger.info('=======================================================================')
+                logger.info(`Good Relays: ${goodRelays}`)
+                logger.info(`Relays MS Avg: ${goodRelays > 0 ? goodRelaysTime / goodRelays : 0}`)
+                logger.info(`Bad Relays: ${badRelays}`)
+                logger.info(JSON.stringify(relaysByNode, null, 2))
+                logger.info('=======================================================================')
 
-                resolve()
+                setTimeout(() => {
+                    resolve()
+                }, 1000)
             });
 
         for( let i=0; i < totalRelays; i++) {

@@ -20,13 +20,14 @@
   "app_state": {
     "pocketcore": {
       "params": {
-        "session_node_count": "22",
-        "proof_waiting_period": "3",
+        "session_node_count": "24",
+        "proof_waiting_period": "2",
         "supported_blockchains": [
           "0001",
-          "0021"
+          "0021",
+          "0040"
         ],
-        "claim_expiration": "100",
+        "claim_expiration": "12",
         "replay_attack_burn_multiplier": "3",
         "minimum_number_of_proofs": "1"
       },
@@ -47,7 +48,9 @@
         {
           "address": "f3abbe313689a603a1a6d6a43330d0440a552288",
           "chains": [
-            "0021"
+            "0001",
+            "0021",
+            "0040"
           ],
           "jailed": false,
           "max_relays": "10000000",
@@ -248,22 +251,6 @@
         {
           "type": "posmint/Account",
           "value": {
-            "address": "278d9f242d3ddffce8ede6d9c86e47fb57b502f5",
-            "coins": [
-              {
-                "denom": "upokt",
-                "amount": "600000000000000000000"
-              }
-            ],
-            "public_key": {
-              "type": "crypto/ed25519_public_key",
-              "value": "2df7ff29f7a84f78f4abacfee732fda9401f5484566dab515de6dd06577e77a2"
-            }
-          }
-        },
-        {
-          "type": "posmint/Account",
-          "value": {
             "address": "b3f65b5c8da10132b107aaa1c38542ffb73dea35",
             "coins": [
               {
@@ -274,22 +261,6 @@
             "public_key": {
               "type": "crypto/ed25519_public_key",
               "value": "9ceb629971855d0fb87f84c4e1bcdf7483f2f805c73330bbed281ceb6e8ead58"
-            }
-          }
-        },
-        {
-          "type": "posmint/Account",
-          "value": {
-            "address": "fb4201bec1209a1af58a9df113d0998503a70c7f",
-            "coins": [
-              {
-                "denom": "upokt",
-                "amount": "600000000000000000000"
-              }
-            ],
-            "public_key": {
-              "type": "crypto/ed25519_public_key",
-              "value": "ff6a95b4a587c9969b0907ede957bb4f02d03d2f1f808bc10219403c230709b6"
             }
           }
         },
@@ -424,38 +395,6 @@
         {
           "type": "posmint/Account",
           "value": {
-            "address": "b2e33301ae084ab010a7eae571c632e37a6083c5",
-            "coins": [
-              {
-                "denom": "upokt",
-                "amount": "600000000000000000000"
-              }
-            ],
-            "public_key": {
-              "type": "crypto/ed25519_public_key",
-              "value": "bcd79765cbf1f40eb72b1235b015220df590f1e1bdc4dab0eeb29b7da35ac6ef"
-            }
-          }
-        },
-        {
-          "type": "posmint/Account",
-          "value": {
-            "address": "b35edc63b62aa1b53d75f7f8bc5c6db2a84958fb",
-            "coins": [
-              {
-                "denom": "upokt",
-                "amount": "600000000000000000000"
-              }
-            ],
-            "public_key": {
-              "type": "crypto/ed25519_public_key",
-              "value": "c700b7c99ae98cefc565c6f8d50e992e0c1212d181680bbf0ed5121b8c1eac4b"
-            }
-          }
-        },
-        {
-          "type": "posmint/Account",
-          "value": {
             "address": "621993ee115ad88682ed401e213e7b389e296832",
             "coins": [
               {
@@ -468,6 +407,102 @@
               "value": "29c37f09eff5d6a543af0c6db0cf2a00c0e11ef4758437418866a42b9ab89713"
             }
           }
+        },
+        {
+          "type": "posmint/Account",
+          "value": {
+            "address": "cb85946c8171e3bbe78f5dbc01469053419b7be1",
+            "coins": [
+              {
+                "denom": "upokt",
+                "amount": "600000000000000000000"
+              }
+            ],
+            "public_key": {
+              "type": "crypto/ed25519_public_key",
+              "value": "b02f4a2d8c887a24a7172fa9ce982d0c0825d35fab37816101ff5ab8a6272dc0"
+            }
+          }
+        },
+        {
+          "type": "posmint/Account",
+          "value": {
+            "address": "80f930617802d4496376b1663e91cafb515e21ad",
+            "coins": [
+              {
+                "denom": "upokt",
+                "amount": "600000000000000000000"
+              }
+            ],
+            "public_key": {
+              "type": "crypto/ed25519_public_key",
+              "value": "531e425edb27bf27d445dfef6f24843d7c95c0af37b2511a751b48e6f66e6dbc"
+            }
+          }
+        },
+        {
+          "type": "posmint/Account",
+          "value": {
+            "address": "9c3e3919baa75d8ea4d11989f6ffc25e4190d5ce",
+            "coins": [
+              {
+                "denom": "upokt",
+                "amount": "600000000000000000000"
+              }
+            ],
+            "public_key": {
+              "type": "crypto/ed25519_public_key",
+              "value": "a8f29a29fa0691429cc1601be06684824796f6205767de81af206801331980c8"
+            }
+          }
+        },
+        {
+          "type": "posmint/Account",
+          "value": {
+            "address": "7853706d177a233401065eb09d849a77f61f153e",
+            "coins": [
+              {
+                "denom": "upokt",
+                "amount": "600000000000000000000"
+              }
+            ],
+            "public_key": {
+              "type": "crypto/ed25519_public_key",
+              "value": "5ccd940dfce7c5a6d497d67fa65c7554a81b5048543c08eb5bf5e30fd9668b1b"
+            }
+          }
+        },
+        {
+          "type": "posmint/Account",
+          "value": {
+            "address": "6260f3c4306dcf88668ceb4108621459f36f0798",
+            "coins": [
+              {
+                "denom": "upokt",
+                "amount": "600000000000000000000"
+              }
+            ],
+            "public_key": {
+              "type": "crypto/ed25519_public_key",
+              "value": "8be8819ea59a25a69f4df30d26e6f27f9a961d4fa943acedc5254078f78c18a6"
+            }
+          }
+        },
+        {
+          "type": "posmint/Account",
+          "value": {
+            "address": "111675de8e13fde1ce4da5fc236ab98ed478cc20",
+            "coins": [
+              {
+                "denom": "upokt",
+                "amount": "600000000000000000000"
+              }
+            ],
+            "public_key": {
+              "type": "crypto/ed25519_public_key",
+              "value": "d70b69a81cb9d80f8e04e6158bc40c301acd81b45addd052657ff8e5040b5350"
+            }
+          }
         }
       ],
       "supply": []
@@ -476,12 +511,12 @@
       "params": {
         "relays_to_tokens_multiplier": "1000",
         "unstaking_time": "1814400000000000",
-        "max_validators": "314",
+        "max_validators": "50",
         "stake_denom": "upokt",
         "stake_minimum": "1000000",
         "session_block_frequency": "4",
         "dao_allocation": "10",
-        "proposer_allocation": "1",
+        "proposer_allocation": "5",
         "maximum_chains": "15",
         "max_jailed_blocks": "1000",
         "max_evidence_age": "60000000000",
@@ -500,7 +535,7 @@
           "jailed": false,
           "status": 2,
           "tokens": "60000000000",
-          "service_url": "http://node1.dev:8081",
+          "service_url": "http://lean1.dev:8071",
           "chains": [
             "0001",
             "0021",
@@ -514,7 +549,7 @@
           "jailed": false,
           "status": 2,
           "tokens": "60000000000",
-          "service_url": "http://node2.dev:8091",
+          "service_url": "http://lean2.dev:8081",
           "chains": [
             "0001",
             "0021",
@@ -522,6 +557,21 @@
           ],
           "unstaking_time": "0001-01-01T00:00:00Z"
         },
+        {
+          "address": "cb85946c8171e3bbe78f5dbc01469053419b7be1",
+          "public_key": "b02f4a2d8c887a24a7172fa9ce982d0c0825d35fab37816101ff5ab8a6272dc0",
+          "jailed": false,
+          "status": 2,
+          "tokens": "60000000000",
+          "service_url": "http://lean3.dev:8091",
+          "chains": [
+            "0001",
+            "0021",
+            "0040"
+          ],
+          "unstaking_time": "0001-01-01T00:00:00Z"
+        },
+
         {
           "address": "5e6949faf0a176fd0f3a0e2ef948d7a70ee2867b",
           "public_key": "b2ef60d9f83d4250adca27aaa26a234502e009167bbf29328871c0f7dacc19a6",
@@ -607,40 +657,12 @@
           "unstaking_time": "0001-01-01T00:00:00Z"
         },
         {
-          "address": "278d9f242d3ddffce8ede6d9c86e47fb57b502f5",
-          "public_key": "2df7ff29f7a84f78f4abacfee732fda9401f5484566dab515de6dd06577e77a2",
-          "jailed": false,
-          "status": 2,
-          "tokens": "60000000000",
-          "service_url": "http://local7.dev:8071",
-          "chains": [
-            "0001",
-            "0021",
-            "0040"
-          ],
-          "unstaking_time": "0001-01-01T00:00:00Z"
-        },
-        {
           "address": "b3f65b5c8da10132b107aaa1c38542ffb73dea35",
           "public_key": "9ceb629971855d0fb87f84c4e1bcdf7483f2f805c73330bbed281ceb6e8ead58",
           "jailed": false,
           "status": 2,
           "tokens": "60000000000",
           "service_url": "http://local8.dev:8071",
-          "chains": [
-            "0001",
-            "0021",
-            "0040"
-          ],
-          "unstaking_time": "0001-01-01T00:00:00Z"
-        },
-        {
-          "address": "fb4201bec1209a1af58a9df113d0998503a70c7f",
-          "public_key": "ff6a95b4a587c9969b0907ede957bb4f02d03d2f1f808bc10219403c230709b6",
-          "jailed": false,
-          "status": 2,
-          "tokens": "60000000000",
-          "service_url": "http://local9.dev:8071",
           "chains": [
             "0001",
             "0021",
@@ -761,40 +783,82 @@
           "unstaking_time": "0001-01-01T00:00:00Z"
         },
         {
-          "address": "b2e33301ae084ab010a7eae571c632e37a6083c5",
-          "public_key": "bcd79765cbf1f40eb72b1235b015220df590f1e1bdc4dab0eeb29b7da35ac6ef",
-          "jailed": false,
-          "status": 2,
-          "tokens": "60000000000",
-          "service_url": "http://local18.dev:8071",
-          "chains": [
-            "0001",
-            "0021",
-            "0040"
-          ],
-          "unstaking_time": "0001-01-01T00:00:00Z"
-        },
-        {
-          "address": "b35edc63b62aa1b53d75f7f8bc5c6db2a84958fb",
-          "public_key": "c700b7c99ae98cefc565c6f8d50e992e0c1212d181680bbf0ed5121b8c1eac4b",
-          "jailed": false,
-          "status": 2,
-          "tokens": "60000000000",
-          "service_url": "http://local19.dev:8071",
-          "chains": [
-            "0001",
-            "0021",
-            "0040"
-          ],
-          "unstaking_time": "0001-01-01T00:00:00Z"
-        },
-        {
           "address": "621993ee115ad88682ed401e213e7b389e296832",
           "public_key": "29c37f09eff5d6a543af0c6db0cf2a00c0e11ef4758437418866a42b9ab89713",
           "jailed": false,
           "status": 2,
           "tokens": "60000000000",
           "service_url": "http://local20.dev:8071",
+          "chains": [
+            "0001",
+            "0021",
+            "0040"
+          ],
+          "unstaking_time": "0001-01-01T00:00:00Z"
+        },
+        {
+          "address": "80f930617802d4496376b1663e91cafb515e21ad",
+          "public_key": "531e425edb27bf27d445dfef6f24843d7c95c0af37b2511a751b48e6f66e6dbc",
+          "jailed": false,
+          "status": 2,
+          "tokens": "60000000000",
+          "service_url": "http://local21.dev:8071",
+          "chains": [
+            "0001",
+            "0021",
+            "0040"
+          ],
+          "unstaking_time": "0001-01-01T00:00:00Z"
+        },
+        {
+          "address": "9c3e3919baa75d8ea4d11989f6ffc25e4190d5ce",
+          "public_key": "a8f29a29fa0691429cc1601be06684824796f6205767de81af206801331980c8",
+          "jailed": false,
+          "status": 2,
+          "tokens": "60000000000",
+          "service_url": "http://local22.dev:8071",
+          "chains": [
+            "0001",
+            "0021",
+            "0040"
+          ],
+          "unstaking_time": "0001-01-01T00:00:00Z"
+        },
+        {
+          "address": "7853706d177a233401065eb09d849a77f61f153e",
+          "public_key": "5ccd940dfce7c5a6d497d67fa65c7554a81b5048543c08eb5bf5e30fd9668b1b",
+          "jailed": false,
+          "status": 2,
+          "tokens": "60000000000",
+          "service_url": "http://local23.dev:8071",
+          "chains": [
+            "0001",
+            "0021",
+            "0040"
+          ],
+          "unstaking_time": "0001-01-01T00:00:00Z"
+        },
+        {
+          "address": "6260f3c4306dcf88668ceb4108621459f36f0798",
+          "public_key": "8be8819ea59a25a69f4df30d26e6f27f9a961d4fa943acedc5254078f78c18a6",
+          "jailed": false,
+          "status": 2,
+          "tokens": "60000000000",
+          "service_url": "http://local24.dev:8071",
+          "chains": [
+            "0001",
+            "0021",
+            "0040"
+          ],
+          "unstaking_time": "0001-01-01T00:00:00Z"
+        },
+        {
+          "address": "111675de8e13fde1ce4da5fc236ab98ed478cc20",
+          "public_key": "d70b69a81cb9d80f8e04e6158bc40c301acd81b45addd052657ff8e5040b5350",
+          "jailed": false,
+          "status": 2,
+          "tokens": "60000000000",
+          "service_url": "http://local25.dev:8071",
           "chains": [
             "0001",
             "0021",

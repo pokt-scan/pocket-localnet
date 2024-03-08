@@ -1,1 +1,6 @@
+.env
 node_modules
+relays.log
+data.json
+!data.sample.json
+logs

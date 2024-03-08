@@ -2,10 +2,14 @@ version: "3.4"
 
 x-base-pocket-core: &base-pocket-core
   build:
-    context: ../
-    dockerfile: pocket-localnet/Dockerfile
+    context: $POCKET_CORE_PATH
+    dockerfile: .github/workflows/Dockerfile
   image: poktscan/pocket-core:dev
-  command: [ "pocket", "start", "--datadir=/home/app/.pocket/"]
+  command: [ "pocket", "start", "--datadir=/home/app/.pocket/", "--keybase=false", "--forceSetValidators"]
+  # if u ran into a permission issue, please comment command and uncomment below commented lines
+  # run docker compose up <service> then comment this back again and uncomment your command
+  #  entrypoint: [ "/home/app/fix_permissions.sh", "/home/app/.pocket"]
+  #  user: root
   restart: unless-stopped
   healthcheck:
     interval: 10s
@@ -23,84 +27,12 @@ x-base-pocket-core: &base-pocket-core
       max-file: "3"
 
 services:
-
-  node1:
+  
+  lean1:
     <<: *base-pocket-core
-    container_name: node1_localnet
+    container_name: lean1_localnet
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8081/v1/health" ]
-    environment:
-      POCKET_CORE_KEY: 6ee006cb35632f7a528d530428863efa8abda2634a68c99e62845a809573131433e1eac17dfce97abaa1387db52cea318edce277bfe5c790448f8ba22f602800
-      POCKET_CORE_PASSPHRASE: dev
-      POCKET_ADDRESS: 7c08e2e1265246a66d7d022b163970114dda124e
-    ports:
-      - "8081:8081" # pokt rpc
-      - "8083:8083" # prometheus
-      - "26656:26656/tcp" # tendermint peer
-      - "26656:26656/udp" # tendermint peer
-      - "26657:26657" # tendermint rpc
-    expose:
-      - "26656"
-    volumes:
-      # Data
-      - node1:/home/app/.pocket
-
-      # Exclusive main files
-      - ./node1/config.json:/home/app/.pocket/config/config.json
-
-      # Common nodes files
-      - ./config/genesis.json:/home/app/.pocket/config/genesis.json
-      - ./config/chains.json:/home/app/.pocket/config/chains.json
-      - ./config/auth.json:/home/app/.pocket/config/auth.json
-    hostname: node1.dev
-    networks:
-      pocket_localnet:
-        aliases:
-          - node1.dev
-  node2:
-    <<: *base-pocket-core
-    container_name: node2_localnet
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8091/v1/health" ]
-    environment:
-      POCKET_CORE_KEY: f5890eda21ec81039309b57b5b49a40b4a22663eaefbe213b5e56d9f5e5acc387bdc0d52b37654e88273d3db2e5a8e5366d58ddc21b9b3dbb3263528812d9bb7
-      POCKET_CORE_PASSPHRASE: dev
-      POCKET_ADDRESS: 9ab105b900c4633657f60974ad0e243c8f50ae1e
-    ports:
-      - "8091:8091" # pokt rpc
-      - "8093:8093" # prometheus
-      - "26666:26666/tcp" # tendermint peer
-      - "26666:26666/udp" # tendermint peer
-      - "26667:26667" # tendermint rpc
-    expose:
-      - "26666"
-    volumes:
-      # Data
-      - node2:/home/app/.pocket
-
-      # Exclusive main files
-      - ./node2/config.json:/home/app/.pocket/config/config.json
-
-      # Common nodes files
-      - ./config/genesis.json:/home/app/.pocket/config/genesis.json
-      - ./config/chains.json:/home/app/.pocket/config/chains.json
-      - ./config/auth.json:/home/app/.pocket/config/auth.json
-    hostname: node2.dev
-    networks:
-      pocket_localnet:
-        aliases:
-          - node2.dev
-    
-    
-  lean:
-    <<: *base-pocket-core
-    container_name: lean_localnet
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8071/v1/health" ]
-    environment:
-      POCKET_ADDRESS: 5e6949faf0a176fd0f3a0e2ef948d7a70ee2867b
-      POCKET_CORE_KEY: eece5822c05899080899e2678c00926cabf031444e61891fb5494c8fe6de4f42b2ef60d9f83d4250adca27aaa26a234502e009167bbf29328871c0f7dacc19a6
-      POCKET_CORE_PASSPHRASE: dev
+      test: [ "CMD", "curl", "-f", "http://lean1.dev:8071/v1/health" ]
     ports:
       - "8071:8071" # pokt rpc
       - "8073:8073" # prometheus
@@ -111,21 +43,84 @@ services:
       - "26646"
     volumes:
       # Data
-      - lean:/home/app/.pocket
+      - lean1:/home/app/.pocket
       
       # Exclusive main files
-      - ./lean/config.json:/home/app/.pocket/config/config.json
-      - ./lean/lean_nodes_keys.json:/home/app/.pocket/lean_nodes_keys.json
+      - ./lean1/config.json:/home/app/.pocket/config/config.json
+      - ./lean1/lean_nodes_keys.json:/home/app/.pocket/lean_nodes_keys.json
       
       # Common nodes files
       - ./config/genesis.json:/home/app/.pocket/config/genesis.json
       - ./config/chains.json:/home/app/.pocket/config/chains.json
       - ./config/auth.json:/home/app/.pocket/config/auth.json
-    hostname: lean.dev
+    hostname: lean1.dev
     networks:
       pocket_localnet:
         aliases:
-          - lean.dev
+          - lean1.dev
+  
+  lean2:
+    <<: *base-pocket-core
+    container_name: lean2_localnet
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://lean2.dev:8081/v1/health" ]
+    ports:
+      - "8081:8081" # pokt rpc
+      - "8083:8083" # prometheus
+      - "26656:26656/tcp" # tendermint peer
+      - "26656:26656/udp" # tendermint peer
+      - "26657:26657" # tendermint rpc
+    expose:
+      - "26656"
+    volumes:
+      # Data
+      - lean2:/home/app/.pocket
+      
+      # Exclusive main files
+      - ./lean2/config.json:/home/app/.pocket/config/config.json
+      - ./lean2/lean_nodes_keys.json:/home/app/.pocket/lean_nodes_keys.json
+      
+      # Common nodes files
+      - ./config/genesis.json:/home/app/.pocket/config/genesis.json
+      - ./config/chains.json:/home/app/.pocket/config/chains.json
+      - ./config/auth.json:/home/app/.pocket/config/auth.json
+    hostname: lean2.dev
+    networks:
+      pocket_localnet:
+        aliases:
+          - lean2.dev
+  
+  lean3:
+    <<: *base-pocket-core
+    container_name: lean3_localnet
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://lean3.dev:8091/v1/health" ]
+    ports:
+      - "8091:8091" # pokt rpc
+      - "8093:8093" # prometheus
+      - "26666:26666/tcp" # tendermint peer
+      - "26666:26666/udp" # tendermint peer
+      - "26667:26667" # tendermint rpc
+    expose:
+      - "26666"
+    volumes:
+      # Data
+      - lean3:/home/app/.pocket
+      
+      # Exclusive main files
+      - ./lean3/config.json:/home/app/.pocket/config/config.json
+      - ./lean3/lean_nodes_keys.json:/home/app/.pocket/lean_nodes_keys.json
+      
+      # Common nodes files
+      - ./config/genesis.json:/home/app/.pocket/config/genesis.json
+      - ./config/chains.json:/home/app/.pocket/config/chains.json
+      - ./config/auth.json:/home/app/.pocket/config/auth.json
+    hostname: lean3.dev
+    networks:
+      pocket_localnet:
+        aliases:
+          - lean3.dev
+  
   mesh:
     <<: *base-pocket-core
     container_name: nmesh_localnet
@@ -150,24 +145,24 @@ services:
         aliases:
           - mesh.dev
     depends_on:
-      node1:
+      lean1:
         condition: service_healthy
-      node2:
+      lean2:
         condition: service_healthy
-      lean:
+      lean3:
         condition: service_healthy
 
 networks:
   pocket_localnet:
 
 volumes:
-  node1:
+  lean1:
     labels:
       pocket: localnet
-  node2:
+  lean2:
     labels:
       pocket: localnet
-  lean:
+  lean3:
     labels:
       pocket: localnet
   mesh:
