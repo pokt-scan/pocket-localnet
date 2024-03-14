@@ -147,6 +147,7 @@
         "validator_cache_size": 40000,
         "application_cache_size": 10000,
         "rpc_timeout": 180000,
+        "rpc_max_bytes_size": 10485760,
         "pocket_prometheus_port": "8083",
         "prometheus_max_open_files": 3,
         "max_claim_age_for_proof_retry": 32,
