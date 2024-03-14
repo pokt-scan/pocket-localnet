@@ -30,9 +30,11 @@ const dataSchema = joi.object({
   relays: joi.number().min(1).default(1),
   logRelayData: joi.bool().default(false).optional(),
   logFile: joi.string().optional().default('relays.log').allow(''),
+  writeRawRelayData: joi.bool().default(false).optional(),
+  rawFile: joi.string().optional().default('relays.raw').allow(''),
 })
 
-const bunyanFormat = bFormat({ outputMode: 'short', levelInString: true })
+const bunyanFormat = bFormat({ outputMode: 'long', levelInString: true })
 
 const logger = bunyan.createLogger({
   name: 'relayer',
@@ -61,7 +63,8 @@ const run = (data) => {
       reject(validation.error)
       return
     }
-
+    
+    const rawToFile = _.isBoolean(data.writeRawRelayData) && data.writeRawRelayData
     const logToFile = _.isBoolean(data.logRelayData) && data.logRelayData
 
     if(logToFile) logger.level('debug')
@@ -135,6 +138,13 @@ const run = (data) => {
                 request: p.value.debug.request,
                 response: p.value.debug.response,
               })
+            }
+            if(rawToFile){
+              fs.appendFile(data.rawFile, p.value.debug.response + '\n', (err) => {
+                if (err) {
+                  console.error('Error writing log to file:', err);
+                }
+              });
             }
           }
         })
