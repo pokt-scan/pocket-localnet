@@ -123,7 +123,7 @@ const run = (data) => {
             badRelays++
             if (p.status === 'rejected') {
               logger.error({err: p.reason}, `relay rejected`)
-            } else if (p.value && p.value.success) {
+            } else if (p.value) {
               logger.error({err: p.value.errorMsg, hash: p.value.debug.hash}, `relay success with error`)
             }
           } else {
