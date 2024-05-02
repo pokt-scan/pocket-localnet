@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node new-wallet.js"
+    "start": "node new-wallet.js",
+    "reveal-pk": "node wallet-reveal.js"
   },
   "dependencies": {
     "libsodium-wrappers": "0.7.9",

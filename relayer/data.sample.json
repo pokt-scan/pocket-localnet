@@ -1,0 +1,36 @@
+{
+  // where u get the session, u need at least 1
+  "rpc_urls":  ["http://localhost:8081"],
+  // add any servicer address that u want/expect to receive the relay for the app
+  // NOTE: adding this could slow down the process, because we need read the session of each app looking for the nodes
+  "whitelisted_servicers": ["address1", "OR LEAVE EMPTY ARRAY"],
+  // application private key that will be used to dispatch the relays
+  "appPrivKeys": [],
+  // add chain/app data that will be delivered to the blockchain using relays format
+  "chain": {
+    "id": "000X",
+    "callSet": [
+      {
+        // default GET
+        "method": "GET",
+        // default /
+        "path": "/",
+        // required - not empty string (pocket nodes will reject otherwise)
+        "data": ""
+      }
+    ]
+  },
+  // enable to call mesh url
+  "mesh": {
+    "enabled": true,
+    "rpcUrl": "http://localhost:9081"
+  },
+  // how many relays
+  "relays": 1,
+  // turn on to log every relay request/response to a log file
+  "logRelaysToFile": false,
+  // path of file to log relays. Only used if logRelaysToFile is on.
+  "logFile": "relays.log",
+  // where u want to save the report, if empty will log to console.
+  "reportFile": "report.log"
+}

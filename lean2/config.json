@@ -1,8 +1,8 @@
 {
     "tendermint_config": {
         "RootDir": "/home/app/.pocket",
-        "ProxyApp": "tcp://127.0.0.1:26648",
-        "Moniker": "localnet-node-lean",
+        "ProxyApp": "tcp://127.0.0.1:26658",
+        "Moniker": "localnet-lean-2",
         "FastSyncMode": true,
         "DBBackend": "goleveldb",
         "LevelDBOptions": {
@@ -14,7 +14,7 @@
             "write_buffer": 838860
         },
         "DBPath": "data",
-        "LogLevel": "*:error",
+        "LogLevel": "*:info",
         "LogFormat": "plain",
         "Genesis": "config/genesis.json",
         "PrivValidatorKey": "priv_val_key.json",
@@ -26,7 +26,7 @@
         "FilterPeers": false,
         "RPC": {
             "RootDir": "/home/app/.pocket",
-            "ListenAddress": "tcp://0.0.0.0:26647",
+            "ListenAddress": "tcp://0.0.0.0:26657",
             "CORSAllowedOrigins": [],
             "CORSAllowedMethods": [
                 "HEAD",
@@ -54,16 +54,16 @@
         },
         "P2P": {
             "RootDir": "/home/app/.pocket",
-            "ListenAddress": "tcp://0.0.0.0:26646",
-            "ExternalAddress": "tcp://node2.dev:26646",
-            "Seeds": "7c08e2e1265246a66d7d022b163970114dda124e@node1.dev:26656,9ab105b900c4633657f60974ad0e243c8f50ae1e@node2.dev:26666",
-            "PersistentPeers": "7c08e2e1265246a66d7d022b163970114dda124e@node1.dev:26656,9ab105b900c4633657f60974ad0e243c8f50ae1e@node2.dev:26666",
+            "ListenAddress": "tcp://0.0.0.0:26656",
+            "ExternalAddress": "tcp://lean2.dev:26656",
+            "Seeds": "7c08e2e1265246a66d7d022b163970114dda124e@lean1.dev:26646,cb85946c8171e3bbe78f5dbc01469053419b7be1@lean3.dev:26666",
+            "PersistentPeers": "7c08e2e1265246a66d7d022b163970114dda124e@lean1.dev:26646,cb85946c8171e3bbe78f5dbc01469053419b7be1@lean3.dev:26666",
             "UPNP": true,
             "AddrBook": "config/addrbook.json",
             "AddrBookStrict": false,
             "MaxNumInboundPeers": 2,
             "MaxNumOutboundPeers": 2,
-            "UnconditionalPeerIDs": "7c08e2e1265246a66d7d022b163970114dda124e",
+            "UnconditionalPeerIDs": "7c08e2e1265246a66d7d022b163970114dda124e,cb85946c8171e3bbe78f5dbc01469053419b7be1",
             "PersistentPeersMaxDialPeriod": 0,
             "FlushThrottleTimeout": 100000000,
             "MaxPacketMsgPayloadSize": 1024,
@@ -96,23 +96,25 @@
             "MaxTxBytes": 1048576
         },
         "FastSync": {
-            "Version": "v1"
+            "Version": "v0"
         },
         "Consensus": {
             "RootDir": "/home/app/.pocket",
             "WalPath": "data/cs.wal/wal",
-            "TimeoutPropose": 60000000000,
-            "TimeoutProposeDelta": 10000000000,
-            "TimeoutPrevote": 60000000000,
-            "TimeoutPrevoteDelta": 10000000000,
-            "TimeoutPrecommit": 60000000000,
-            "TimeoutPrecommitDelta": 10000000000,
-            "TimeoutCommit": 120000000000,
+
+            "TimeoutPropose": 15000000000,
+            "TimeoutProposeDelta": 2500000000,
+            "TimeoutPrevote": 15000000000,
+            "TimeoutPrevoteDelta": 2500000000,
+            "TimeoutPrecommit": 15000000000,
+            "TimeoutPrecommitDelta": 2500000000,
+            "TimeoutCommit": 30000000000,
             "SkipTimeoutCommit": false,
             "CreateEmptyBlocks": true,
-            "CreateEmptyBlocksInterval": 120000000000,
-            "PeerGossipSleepDuration": 100000000,
-            "PeerQueryMaj23SleepDuration": 2000000000
+            "CreateEmptyBlocksInterval": 30000000000,
+
+            "PeerGossipSleepDuration": 30000000000,
+            "PeerQueryMaj23SleepDuration": 20000000000
         },
         "TxIndex": {
             "Indexer": "kv",
@@ -121,7 +123,7 @@
         },
         "Instrumentation": {
             "Prometheus": false,
-            "PrometheusListenAddr": ":26650",
+            "PrometheusListenAddr": ":26660",
             "MaxOpenConnections": 3,
             "Namespace": "tendermint"
         }
@@ -132,33 +134,35 @@
         "chains_name": "chains.json",
         "session_db_name": "session",
         "evidence_db_name": "pocket_evidence",
-        "tendermint_uri": "tcp://localhost:26667",
+        "tendermint_uri": "tcp://lean2.dev:26657",
         "keybase_name": "pocket-keybase",
-        "rpc_port": "8071",
+        "rpc_port": "8081",
         "client_block_sync_allowance": 10,
+        "client_session_sync_allowance": 1,
         "max_evidence_cache_entries": 500,
         "max_session_cache_entries": 500,
         "json_sort_relay_responses": true,
-        "remote_cli_url": "http://localhost:8091",
-        "user_agent": "poktscan-public-archive",
+        "remote_cli_url": "http://lean2.dev:8081",
+        "user_agent": "localnet-lean-2",
         "validator_cache_size": 40000,
         "application_cache_size": 10000,
         "rpc_timeout": 180000,
-        "pocket_prometheus_port": "8073",
+        "rpc_max_bytes_size": 10485760,
+        "pocket_prometheus_port": "8083",
         "prometheus_max_open_files": 3,
         "max_claim_age_for_proof_retry": 32,
         "proof_prevalidation": false,
         "ctx_cache_size": 20,
         "abci_logging": false,
-        "show_relay_errors": false,
-        "iavl_cache_size": 500000,
+        "show_relay_errors": true,
+        "iavl_cache_size": 5000000,
         "chains_hot_reload": true,
         "generate_token_on_start": false,
         "lean_pocket": true,
         "mesh_node": true,
         "evidence_worker": {
             "strategy": "eager",
-            "max_capacity": 1000,
+            "max_capacity": 100000,
             "idle_timeout": 15000
         }
     }
