@@ -157,6 +157,7 @@ services:
         condition: service_healthy
 
   relayer:
+    # if you ran this at the beginning probably fail because blockchain does not have even block 1 ready.
     build:
       context: ${RELAYER_PATH:-./relayer}
     image: poktscan/pocket-relayer:dev

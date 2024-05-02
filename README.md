@@ -92,12 +92,9 @@ Simply run `docker-compose stop` to destroy all the containers.
 
 ### Reset Pocket LocalNet
 
-If you want to go back to the genesis (block 0) and have a clean network, you need to destroy all volumes using `docker-compose down --volumes`.
+If you want to go back to the genesis (block 0) and have a clean network, you need to destroy all volumes using `docker compose down -v`.
 
-Depending on the Docker install this command might not erase qll volumes (you can check using `docker volume list`). In that case you can force the deletion by doing:
-1. Run `docker-compose down` to destroy all the containers (if not already done).
-2. Run `docker volume rm pocket-lean1_localnet && docker volume rm pocket-lean2_localnet && docker volume rm pocket-lean3_localnet && docker volume rm pocket-localnet_mesh && docker volume rm pocket-relayer`
-   * NOTE: docker-compose contains volume label "pocket=localnet" but `docker volume prune --filter "label=pocket"` or `docker volume prune --filter "pocket=localnet"` is not working as expected.
+1. Run `docker compose down -v` to destroy all the containers (if not already done).
 
 After deleting the volumes you can restart the service following section "Start Pocket LocalNet + Geo-Mesh"
 
