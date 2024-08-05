@@ -6,7 +6,7 @@ x-base-pocket-core: &base-pocket-core
 #  image: poktscan/pocket-core:MESH-RC-0.4.2-RC-0.11.1
   command: [ "pocket", "start", "--datadir=/home/app/.pocket/", "--keybase=false", "--forceSetValidators"]
   restart: unless-stopped
-  # IMPORTANT NOTE: if u ran into a permission issue, please comment command & restart above and uncomment below three commented lines
+  # IMPORTANT NOTE: if you ran into a permission issue, please comment command & restart above and uncomment below three commented lines
   # run docker compose up <service> then revert the commented/uncommented lines again.
 #  entrypoint: [ "/home/app/change_datadir_ownership_to_app.sh", "/home/app/.pocket"]
 #  user: root

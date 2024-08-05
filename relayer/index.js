@@ -58,8 +58,10 @@ const readDataFile = async () => {
 
 const run = (data) => {
   return new Promise((resolve, reject) => {
+    logger.info(`validating config file`)
     const validation = dataSchema.validate(data)
     if (validation.error) {
+      logger.error(validation.error)
       reject(validation.error)
       return
     }

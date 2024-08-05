@@ -1,6 +1,7 @@
 .env
 node_modules
-relays.log
+*.log
+*.log*
 data.json
 !data.sample.json
 logs
